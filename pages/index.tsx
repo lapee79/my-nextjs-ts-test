@@ -1,9 +1,29 @@
 import type { NextPage } from 'next'
+import { useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
+import StarRating from '../components/StarRating'
+import ColorList from '../components/ColorList'
+
+import colorData from '../data/color-data.json';
+
 const Home: NextPage = () => {
+  const [colors, setColors] = useState(colorData);
+
+  const removeColor = (id: string) => {
+    const newColors = colors.filter(color => color.id !== id);
+    setColors(newColors);
+  };
+
+  const rateColor = (id: string, rating: number) => {
+    const newColors = colors.map(color => 
+      color.id === id ? {...color, rating} : color
+    );
+    setColors(newColors);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -22,35 +42,7 @@ const Home: NextPage = () => {
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        <ColorList colors={colors} onRemoveColor={removeColor} onRateColor={rateColor} />
       </main>
 
       <footer className={styles.footer}>
