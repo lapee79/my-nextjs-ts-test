@@ -4,10 +4,10 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
-import StarRating from '../components/StarRating'
 import ColorList from '../components/ColorList'
 
 import colorData from '../data/color-data.json';
+import AddColorForm from '../components/AddColorForm';
 
 const Home: NextPage = () => {
   const [colors, setColors] = useState(colorData);
@@ -42,6 +42,7 @@ const Home: NextPage = () => {
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
+        <AddColorForm onNewColor={(title, color) => alert(`TODO: Create ${title} -${color}`)} />
         <ColorList colors={colors} onRemoveColor={removeColor} onRateColor={rateColor} />
       </main>
 
