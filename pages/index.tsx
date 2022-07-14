@@ -3,6 +3,8 @@ import { useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { v4 } from 'uuid';
+
 
 import ColorList from '../components/ColorList'
 
@@ -42,7 +44,18 @@ const Home: NextPage = () => {
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
-        <AddColorForm onNewColor={(title, color) => alert(`TODO: Create ${title} -${color}`)} />
+        <AddColorForm onNewColor={(title, color) => {
+          const newColors = [
+            ...colors,
+            {
+              id: v4(),
+              rating: 0,
+              title,
+              color
+            }
+          ];
+          setColors(newColors);
+        }} />
         <ColorList colors={colors} onRemoveColor={removeColor} onRateColor={rateColor} />
       </main>
 

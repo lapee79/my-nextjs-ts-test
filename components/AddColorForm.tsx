@@ -1,32 +1,32 @@
-import {FormEvent, useState} from 'react';
+import {FormEvent} from 'react';
+
+import {useInput} from '../lib/hooks';
 
 interface AddColorFormProps {
-  onNewColor: (title?: string, color?: string) => void;
+  onNewColor: (title: string, color: string) => void;
 }
 
 const AddColorForm = ({onNewColor}: AddColorFormProps) => {
-  const [title, setTitle] = useState('');
-  const [color, setColor] = useState('#000000');
+  const [titleProps, resetTitle] = useInput('');
+  const [colorProps, resetColor] = useInput('#000000');
 
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onNewColor(title, color);
-    setTitle('');
-    setColor('');
+    onNewColor(titleProps.value, colorProps.value);
+    resetTitle();
+    resetColor();
   };
 
   return (
     <form onSubmit={submit}>
       <input
-        value={title}
-        onChange={event => setTitle(event.target.value)}
+        {...titleProps}
         type="text"
         placeholder="color title..."
         required
       />
       <input
-        value={color}
-        onChange={event => setColor(event.target.value)}
+        {...colorProps}
         type="color"
         required
       />
